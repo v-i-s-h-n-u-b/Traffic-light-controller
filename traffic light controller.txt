@@ -13,6 +13,7 @@ module traffic_light_controller(
     output reg ped_light_NS,   // Pedestrian light for North-South: 1 = Walk, 0 = Don't Walk
     output reg ped_light_EW    // Pedestrian light for East-West: 1 = Walk, 0 = Don't Walk
     );
+
  // State encoding
     parameter RED_NS_GREEN_EW   = 4'b0000;
     parameter YELLOW_NS_RED_EW  = 4'b0001;
@@ -29,7 +30,6 @@ module traffic_light_controller(
 
     reg [2:0] state, next_state;
     reg [3:0] timer;
-  // reg ped_request_NS, ped_request_EW;
 
     // Timing parameters 
     parameter RED_TIME = 4'd10;
@@ -37,7 +37,7 @@ module traffic_light_controller(
     parameter GREEN_TIME = 4'd15;
     parameter PED_TIME = 4'd10;
     parameter EMERGENCY_TIME = 4'd15;
-	 //taken 10 and 15 seconds for red light and green light respctively. 2 seconds for yellow light, 10 seconds for pedestrian crossing as an example
+	 //10 sec, 2 sec, 15 sec, 10 sec and 15 sec as an example for red light, yellow light, green light, pedestrian crossing time and emergency vehicle crossing time.
 
     // State transition
     always @(posedge clk or posedge reset) begin
@@ -55,11 +55,11 @@ module traffic_light_controller(
                     YELLOW_NS_RED_EW: timer <= YELLOW_TIME;
                     GREEN_NS_RED_EW: timer <= GREEN_TIME;
                     RED_NS_YELLOW_EW: timer <= YELLOW_TIME;
-						  PED_CROSS_NS: timer <= PED_TIME;
+		    PED_CROSS_NS: timer <= PED_TIME;
                     PED_CROSS_EW: timer <= PED_TIME;
-                    EMERGENCY_MODE: timer <= EMERGENCY_TIME; // Use EMERGENCY_TIME
+                    EMERGENCY_MODE: timer <= EMERGENCY_TIME; 
                     default: timer <= RED_TIME; // Default case
-					 endcase
+		endcase
             end else begin
                 timer <= timer - 1;//starts downcounting the duration for each of the traffic lights
             end
@@ -107,7 +107,7 @@ module traffic_light_controller(
                 ped_light_NS = 0;
                 ped_light_EW = 0;
             end
-				PED_CROSS_NS: begin
+	   PED_CROSS_NS: begin
                 light_NS = RED;
                 light_EW = RED;
                 ped_light_NS = 1;
