@@ -1,0 +1,154 @@
+`timescale 1ns / 1ps
+
+module traffic_light_controller(
+    input wire clk,       // Clock signal
+    input wire reset,     //reset signal
+    input wire emergency,
+    input wire ped_button_NS,    // Pedestrian button for North-South
+    input wire ped_button_EW,    // Pedestrian button for East-West
+    output reg ped_request_NS, // Pedestrian request for North-South
+    output reg ped_request_EW, // Pedestrian request for East-West	 
+    output reg [2:0] light_NS, // Traffic light for North  South:[Red, Yellow, Green]
+    output reg [2:0] light_EW, // Traffic light for East-West: [Red, Yellow, Green]
+    output reg ped_light_NS,   // Pedestrian light for North-South: 1 = Walk, 0 = Don't Walk
+    output reg ped_light_EW    // Pedestrian light for East-West: 1 = Walk, 0 = Don't Walk
+    );
+ // State encoding
+    parameter RED_NS_GREEN_EW   = 4'b0000;
+    parameter YELLOW_NS_RED_EW  = 4'b0001;
+    parameter GREEN_NS_RED_EW   = 4'b0010;
+    parameter RED_NS_YELLOW_EW  = 4'b0011;
+    parameter PED_CROSS_NS      = 4'b0100;
+    parameter PED_CROSS_EW      = 4'b0101;
+    parameter EMERGENCY_MODE    = 4'b0110;
+
+    // Light encoding
+    parameter RED = 4'b0100;
+    parameter YELLOW = 4'b0010;
+    parameter GREEN = 4'b0001;
+
+    reg [2:0] state, next_state;
+    reg [3:0] timer;
+  // reg ped_request_NS, ped_request_EW;
+
+    // Timing parameters 
+    parameter RED_TIME = 4'd10;
+    parameter YELLOW_TIME = 4'd2;
+    parameter GREEN_TIME = 4'd15;
+    parameter PED_TIME = 4'd10;
+    parameter EMERGENCY_TIME = 4'd15;
+	 //taken 10 and 15 seconds for red light and green light respctively. 2 seconds for yellow light, 10 seconds for pedestrian crossing as an example
+
+    // State transition
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            state <= RED_NS_GREEN_EW;
+            timer <= RED_TIME;
+	    //ped_request_NS <= 0;
+            //ped_request_EW <= 0;
+
+        end else begin
+            if (timer == 4'd0) begin
+                state <= next_state;
+                case (next_state)
+                    RED_NS_GREEN_EW: timer <= RED_TIME;
+                    YELLOW_NS_RED_EW: timer <= YELLOW_TIME;
+                    GREEN_NS_RED_EW: timer <= GREEN_TIME;
+                    RED_NS_YELLOW_EW: timer <= YELLOW_TIME;
+						  PED_CROSS_NS: timer <= PED_TIME;
+                    PED_CROSS_EW: timer <= PED_TIME;
+                    EMERGENCY_MODE: timer <= EMERGENCY_TIME; // Use EMERGENCY_TIME
+                    default: timer <= RED_TIME; // Default case
+					 endcase
+            end else begin
+                timer <= timer - 1;//starts downcounting the duration for each of the traffic lights
+            end
+        end
+    end
+
+    // Next state logic
+    always @(*) begin
+        case (state)
+           RED_NS_GREEN_EW: next_state = (emergency) ? EMERGENCY_MODE :(ped_request_NS) ? PED_CROSS_NS : YELLOW_NS_RED_EW;
+           YELLOW_NS_RED_EW: next_state = (emergency) ? EMERGENCY_MODE : GREEN_NS_RED_EW;
+           GREEN_NS_RED_EW: next_state = (emergency) ? EMERGENCY_MODE :(ped_request_EW) ? PED_CROSS_EW : RED_NS_YELLOW_EW;
+           RED_NS_YELLOW_EW: next_state = (emergency) ? EMERGENCY_MODE : RED_NS_GREEN_EW;
+           PED_CROSS_NS: next_state = RED_NS_GREEN_EW;
+           PED_CROSS_EW: next_state = RED_NS_YELLOW_EW;
+           EMERGENCY_MODE: next_state = (emergency) ? EMERGENCY_MODE : RED_NS_GREEN_EW;
+           default: next_state = RED_NS_GREEN_EW;
+
+        endcase
+    end
+  // Output logic
+    always @(*) begin
+        case (state)
+            RED_NS_GREEN_EW: begin
+                light_NS = RED;
+                light_EW = GREEN;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+            YELLOW_NS_RED_EW: begin
+                light_NS = YELLOW;
+                light_EW = RED;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+             GREEN_NS_RED_EW: begin
+                light_NS = GREEN;
+                light_EW = RED;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+            RED_NS_YELLOW_EW: begin
+                light_NS = RED;
+                light_EW = YELLOW;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+				PED_CROSS_NS: begin
+                light_NS = RED;
+                light_EW = RED;
+                ped_light_NS = 1;
+                ped_light_EW = 0;
+            end
+            PED_CROSS_EW: begin
+                light_NS = RED;
+                light_EW = RED;
+                ped_light_NS = 0;
+                ped_light_EW = 1;
+            end
+            EMERGENCY_MODE: begin
+                light_NS = RED;
+                light_EW = RED;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+            default: begin
+                light_NS = RED;
+                light_EW = RED;
+                ped_light_NS = 0;
+                ped_light_EW = 0;
+            end
+        endcase
+    end
+// Pedestrian request handling
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            ped_request_NS <= 0;
+            ped_request_EW <= 0;
+        end else begin
+            if (ped_button_NS && light_NS == GREEN && !ped_request_NS) begin
+                ped_request_NS <= 1;
+            end else if (ped_button_EW && light_EW == GREEN && !ped_request_EW) begin
+                ped_request_EW <= 1;
+            end else if (state == PED_CROSS_NS) begin
+                ped_request_NS <= 0;
+            end else if (state == PED_CROSS_EW) begin
+                ped_request_EW <= 0;
+            end
+        end
+    end
+	 
+endmodule

@@ -1,0 +1,77 @@
+`timescale 1ns / 1ps
+
+
+module trafficlightcontroller_tb;
+
+	// Inputs
+	reg clk;
+	reg reset;
+	reg emergency;
+	reg ped_button_NS;
+	reg ped_button_EW;
+
+	// Outputs
+	wire ped_request_NS;
+	wire ped_request_EW;
+	wire [2:0] light_NS;
+	wire [2:0] light_EW;
+	wire ped_light_NS;
+	wire ped_light_EW;
+
+	// Instantiate the Unit Under Test (UUT)
+	traffic_light_controller uut (
+		.clk(clk), 
+		.reset(reset), 
+		.emergency(emergency), 
+		.ped_button_NS(ped_button_NS), 
+		.ped_button_EW(ped_button_EW), 
+		.ped_request_NS(ped_request_NS), 
+		.ped_request_EW(ped_request_EW), 
+		.light_NS(light_NS), 
+		.light_EW(light_EW), 
+		.ped_light_NS(ped_light_NS), 
+		.ped_light_EW(ped_light_EW)
+	);
+
+   always #5 clk = ~clk;  // 10ns clock period
+
+	initial begin
+	 clk = 0;
+    reset = 0;
+    emergency = 0;
+    ped_button_NS = 0;
+    ped_button_EW = 0;
+
+    // Apply reset
+    reset = 1;
+    #10;
+    reset = 0;
+    #10;
+	 // Test pedestrian button for North-South
+    ped_button_NS = 1;
+    #10;
+    ped_button_NS = 0;
+    
+    // Test pedestrian button for East-West
+    ped_button_EW = 1;
+    #10;
+    ped_button_EW = 0;
+	 // Simulate emergency mode
+    emergency = 1;
+    #30;
+    emergency = 0;
+
+    // Observe the behavior
+    #100;
+
+    // Finish simulation
+    $finish;
+
+	end
+	
+    initial begin
+         $monitor("At time %t, reset = %b, emergency = %b, ped_button_NS = %b, ped_button_EW = %b, ped_request_NS = %b, ped_request_EW = %b, light_NS = %b, light_EW = %b, ped_light_NS = %b, ped_light_EW = %b",
+                  $time, reset, emergency, ped_button_NS, ped_button_EW, ped_request_NS, ped_request_EW, light_NS, light_EW, ped_light_NS, ped_light_EW);
+    end
+endmodule
+
