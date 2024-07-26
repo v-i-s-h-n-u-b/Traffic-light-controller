@@ -37,7 +37,7 @@ module traffic_light_controller(
     parameter GREEN_TIME = 4'd15;
     parameter PED_TIME = 4'd10;
     parameter EMERGENCY_TIME = 4'd15;
-	 //10 sec, 2 sec, 15 sec, 10 sec and 15 sec as an example for red light, yellow light, green light, pedestrian crossing time and emergency vehicle crossing time.
+   // 10 sec, 2 sec, 15 sec, 10 sec and 15 sec as an example for red light, yellow light, green light, pedestrian crossing time and emergency vehicle crossing time.
 
     // State transition
     always @(posedge clk or posedge reset) begin
