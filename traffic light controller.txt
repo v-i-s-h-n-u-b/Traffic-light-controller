@@ -139,9 +139,9 @@ module traffic_light_controller(
             ped_request_NS <= 0;
             ped_request_EW <= 0;
         end else begin
-            if (ped_button_NS && light_NS == GREEN && !ped_request_NS) begin
+            if (ped_button_NS && light_NS == RED && light_EW == RED && !ped_request_NS) begin
                 ped_request_NS <= 1;
-            end else if (ped_button_EW && light_EW == GREEN && !ped_request_EW) begin
+            end else if (ped_button_EW && light_EW == RED && light_NS == RED && !ped_request_EW) begin
                 ped_request_EW <= 1;
             end else if (state == PED_CROSS_NS) begin
                 ped_request_NS <= 0;
