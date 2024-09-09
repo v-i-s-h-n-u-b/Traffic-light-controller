@@ -1,40 +1,40 @@
-### Clock Constraints
+// Clock Constraints
 
-set_property PACKAGE_PIN W5 [get_ports clk]        #### Clock signal (Pin W5)
+set_property PACKAGE_PIN W5 [get_ports clk]        // Clock signal (Pin W5)
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
-set_property PERIOD 10 [get_ports clk]             #### Set clock period to 10ns
+set_property PERIOD 10 [get_ports clk]             // Set clock period to 10ns
 
-### Reset Constraints
+// Reset Constraints
 
 set_property PACKAGE_PIN V17 [get_ports reset]      // Reset signal (Pin V17)
 set_property IOSTANDARD LVCMOS33 [get_ports reset]
 
-### Emergency Constraints
+// Emergency Constraints
 
 set_property PACKAGE_PIN U15 [get_ports emergency]  // Emergency signal (Pin U15)
 set_property IOSTANDARD LVCMOS33 [get_ports emergency]
 
-### Pedestrian Button for North-South Constraints
+// Pedestrian Button for North-South Constraints
 
 set_property PACKAGE_PIN U14 [get_ports ped_button_NS] // Pedestrian button NS (Pin U14)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_NS]
 
-### Pedestrian Button for East-West Constraints
+// Pedestrian Button for East-West Constraints
 
 set_property PACKAGE_PIN T14 [get_ports ped_button_EW] // Pedestrian button EW (Pin T14)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_EW]
 
-### Pedestrian Request for North-South Constraints
+// Pedestrian Request for North-South Constraints
 
 set_property PACKAGE_PIN R16 [get_ports ped_request_NS] // Pedestrian request NS (Pin R16)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_request_NS]
 
-### Pedestrian Request for East-West Constraints
+// Pedestrian Request for East-West Constraints
 
 set_property PACKAGE_PIN T16 [get_ports ped_request_EW] // Pedestrian request EW (Pin T16)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_request_EW]
 
-### Traffic Light for North-South Constraints - 3 constraints for red, yellow and green lights respectively
+// Traffic Light for North-South Constraints - 3 constraints for red, yellow and green lights respectively
 
 set_property PACKAGE_PIN W2 [get_ports light_NS[0]]   // Traffic light NS Red (Pin W2)
 set_property IOSTANDARD LVCMOS33 [get_ports light_NS[0]]
@@ -45,7 +45,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports light_NS[1]]
 set_property PACKAGE_PIN V2 [get_ports light_NS[2]]   // Traffic light NS Green (Pin V2)
 set_property IOSTANDARD LVCMOS33 [get_ports light_NS[2]]
 
-### Traffic Light for East-West Constraints - 3 constraints for red, yellow and green lights respectively
+// Traffic Light for East-West Constraints - 3 constraints for red, yellow and green lights respectively
 
 set_property PACKAGE_PIN T2 [get_ports light_EW[0]]   // Traffic light EW Red (Pin T2)
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[0]]
@@ -56,12 +56,12 @@ set_property IOSTANDARD LVCMOS33 [get_ports light_EW[1]]
 set_property PACKAGE_PIN R2 [get_ports light_EW[2]]   // Traffic light EW Green (Pin R2)
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[2]]
 
-### Pedestrian Light for North-South Constraints
+// Pedestrian Light for North-South Constraints
 
 set_property PACKAGE_PIN U1 [get_ports ped_light_NS]  // Pedestrian light NS (Pin U1)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_light_NS]
 
-### Pedestrian Light for East-West Constraints
+// Pedestrian Light for East-West Constraints
 
 set_property PACKAGE_PIN T1 [get_ports ped_light_EW]  // Pedestrian light EW (Pin T1)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_light_EW]
