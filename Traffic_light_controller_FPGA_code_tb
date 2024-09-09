@@ -1,0 +1,76 @@
+`timescale 1ns / 1ps
+
+module tb_traffic_light_controller;
+
+    // Inputs
+    reg clk;
+    reg reset;
+    reg emergency;
+    reg ped_button_NS;
+    reg ped_button_EW;
+
+    // Outputs
+    wire ped_request_NS;
+    wire ped_request_EW;
+    wire [2:0] light_NS;
+    wire [2:0] light_EW;
+    wire shared_ped_light;
+    wire [6:0] state_indicator;
+
+    // Instantiating the traffic light controller
+
+    traffic_light_controller uut (
+        .clk(clk),
+        .reset(reset),
+        .emergency(emergency),
+        .ped_button_NS(ped_button_NS),
+        .ped_button_EW(ped_button_EW),
+        .ped_request_NS(ped_request_NS),
+        .ped_request_EW(ped_request_EW),
+        .light_NS(light_NS),
+        .light_EW(light_EW),
+        .shared_ped_light(shared_ped_light),
+        .state_indicator(state_indicator)
+    );
+
+    // Clock
+    always begin
+        #5 clk = ~clk;  // Clock period = 10ns
+    end
+
+    
+    initial begin
+        // Initializing Inputs
+        clk = 0;
+        reset = 1;
+        emergency = 0;
+        ped_button_NS = 0;
+        ped_button_EW = 0;
+
+        #10;
+        reset = 0;
+
+        // Normal operation without any pedestrian or emergency conditions
+        #50; 
+
+        // North-South pedestrian request
+        ped_button_NS = 1;
+        #50;   
+        ped_button_NS = 0;
+
+        // East-West pedestrian request
+        ped_button_EW = 1;
+        #50;   
+        ped_button_EW = 0;
+
+        // Emergency situation
+        emergency = 1;
+        #100;  
+        emergency = 0;
+
+        // End simulation after enough time has passed
+        #200;
+        $stop;
+    end
+
+endmodule
