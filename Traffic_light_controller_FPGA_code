@@ -1,0 +1,169 @@
+`timescale 1ns / 1ps
+
+module traffic_light_controller(
+    input wire clk,       // Clock signal
+    input wire reset,     //reset signal
+    input wire emergency,
+    input wire ped_button_NS,    // Pedestrian button for North-South
+    input wire ped_button_EW,    // Pedestrian button for East-West
+    output reg ped_request_NS, // Pedestrian request for North-South
+    output reg ped_request_EW, // Pedestrian request for East-West	 
+    output reg [2:0] light_NS, // Traffic light for North  South:[Red, Yellow, Green]
+    output reg [2:0] light_EW, // Traffic light for East-West: [Red, Yellow, Green]
+    output reg shared_ped_light, // Shared pedestrian light for NS and EW (1 = Walk, 0 = Don't Walk)
+    output reg [6:0] state_indicator // State indicator for debugging purposes
+    );
+
+ // State encoding
+    parameter RED_NS_GREEN_EW   = 4'b0000;
+    parameter YELLOW_NS_RED_EW  = 4'b0001;
+    parameter GREEN_NS_RED_EW   = 4'b0010;
+    parameter RED_NS_YELLOW_EW  = 4'b0011;
+    parameter PED_CROSS_NS      = 4'b0100;
+    parameter PED_CROSS_EW      = 4'b0101;
+    parameter EMERGENCY_MODE    = 4'b0110;
+
+    // Light encoding
+    parameter RED = 4'b0100;
+    parameter YELLOW = 4'b0010;
+    parameter GREEN = 4'b0001;
+
+    reg [3:0] state, next_state;
+    reg [3:0] timer;
+    reg control_signal;  // Control signal for pedestrian lights
+
+
+    // Timing parameters 
+    parameter RED_TIME = 4'd10;
+    parameter YELLOW_TIME = 4'd2;
+    parameter GREEN_TIME = 4'd15;
+    parameter PED_TIME = 4'd10;
+    parameter EMERGENCY_TIME = 4'd15;
+   // 10 sec, 2 sec, 15 sec, 10 sec and 15 sec as an example for red light, yellow light, green light, pedestrian crossing time and emergency vehicle crossing time.
+
+    // State transition
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            state <= RED_NS_GREEN_EW;
+            timer <= RED_TIME;
+	    //ped_request_NS <= 0;
+            //ped_request_EW <= 0;
+
+        end else begin
+            if (timer == 4'd0) begin
+                state <= next_state;
+                case (next_state)
+                    RED_NS_GREEN_EW: timer <= RED_TIME;
+                    YELLOW_NS_RED_EW: timer <= YELLOW_TIME;
+                    GREEN_NS_RED_EW: timer <= GREEN_TIME;
+                    RED_NS_YELLOW_EW: timer <= YELLOW_TIME;
+		    PED_CROSS_NS: timer <= PED_TIME;
+                    PED_CROSS_EW: timer <= PED_TIME;
+                    EMERGENCY_MODE: timer <= EMERGENCY_TIME; 
+                    default: timer <= RED_TIME; // Default case
+		endcase
+            end else begin
+                timer <= timer - 1;//starts downcounting the duration for each of the traffic lights
+            end
+        end
+    end
+
+    // Next state logic
+    always @(*) begin
+        case (state)
+           RED_NS_GREEN_EW: next_state = (emergency) ? EMERGENCY_MODE :(ped_request_NS) ? PED_CROSS_NS : YELLOW_NS_RED_EW;
+           YELLOW_NS_RED_EW: next_state = (emergency) ? EMERGENCY_MODE : GREEN_NS_RED_EW;
+           GREEN_NS_RED_EW: next_state = (emergency) ? EMERGENCY_MODE :(ped_request_EW) ? PED_CROSS_EW : RED_NS_YELLOW_EW;
+           RED_NS_YELLOW_EW: next_state = (emergency) ? EMERGENCY_MODE : RED_NS_GREEN_EW;
+           PED_CROSS_NS: next_state = RED_NS_GREEN_EW;
+           PED_CROSS_EW: next_state = RED_NS_YELLOW_EW;
+           EMERGENCY_MODE: next_state = (emergency) ? EMERGENCY_MODE : RED_NS_GREEN_EW;
+           default: next_state = RED_NS_GREEN_EW;
+
+        endcase
+    end
+  // Output logic
+    always @(*) begin
+        case (state)
+            RED_NS_GREEN_EW: begin
+                light_NS = RED;
+                light_EW = GREEN;
+                control_signal = 0; // No pedestrian light in NS
+            end
+            YELLOW_NS_RED_EW: begin
+                light_NS = YELLOW;
+                light_EW = RED;
+                control_signal = 0; // No pedestrian light
+            end
+            GREEN_NS_RED_EW: begin
+                light_NS = GREEN;
+                light_EW = RED;
+                control_signal = 0; // No pedestrian light in EW
+            end
+            RED_NS_YELLOW_EW: begin
+                light_NS = RED;
+                light_EW = YELLOW;
+                control_signal = 0; // No pedestrian light
+            end
+            PED_CROSS_NS: begin
+                light_NS = RED;
+                light_EW = RED;
+                control_signal = 1; // Pedestrian crossing NS
+            end
+            PED_CROSS_EW: begin
+                light_NS = RED;
+                light_EW = RED;
+                control_signal = 0; // Pedestrian crossing EW
+            end
+            EMERGENCY_MODE: begin
+                light_NS = RED;
+                light_EW = RED;
+                control_signal = 0; // No pedestrian light
+            end
+            default: begin
+                light_NS = RED;
+                light_EW = RED;
+                control_signal = 0; // Default no pedestrian light
+            end
+        endcase
+    end
+
+// Pedestrian request handling
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            ped_request_NS <= 0;
+            ped_request_EW <= 0;
+        end else begin
+            if (ped_button_NS && light_NS == RED && light_EW == RED && !ped_request_NS) begin
+                ped_request_NS <= 1;
+            end else if (ped_button_EW && light_EW == RED && light_NS == RED && !ped_request_EW) begin
+                ped_request_EW <= 1;
+            end else if (state == PED_CROSS_NS) begin
+                ped_request_NS <= 0;
+            end else if (state == PED_CROSS_EW) begin
+                ped_request_EW <= 0;
+            end
+        end
+    end
+
+// Shared pedestrian light based on control signal
+
+    assign shared_ped_light = (control_signal) ? ped_light_NS : ped_light_EW; // Here this works as the pedestrian request handling block handles the cases where the control signal is 0 or 1 in other states
+                                                                                 as the ped_request signals will become high only when both light_NS and light_EW are zero.
+ 
+// State indicator for FPGA debugging (mapped to 7 LEDs)
+    always @(*) begin
+        state_indicator = 7'b0000000; // Default to no state active
+        case (state)
+            RED_NS_GREEN_EW:    state_indicator[0] = 1;
+            YELLOW_NS_RED_EW:   state_indicator[1] = 1;
+            GREEN_NS_RED_EW:    state_indicator[2] = 1;
+            RED_NS_YELLOW_EW:   state_indicator[3] = 1;
+            PED_CROSS_NS:       state_indicator[4] = 1;
+            PED_CROSS_EW:       state_indicator[5] = 1;
+            EMERGENCY_MODE:     state_indicator[6] = 1;
+            default:            state_indicator = 7'b0000000;
+        endcase
+    end
+
+endmodule
