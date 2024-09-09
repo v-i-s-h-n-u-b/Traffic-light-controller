@@ -64,16 +64,18 @@ initial begin
 
     // Observation of the behavior
     #100;
-
-    // Finish simulation
-    $finish;
-
     end
 	
     initial begin
-         $monitor("At time %t, reset = %b, emergency = %b, ped_button_NS = %b, ped_button_EW = %b, ped_request_NS = %b, ped_request_EW = %b, light_NS = %b, light_EW = %b,
-ped_light_NS = %b, ped_light_EW = %b", $time, reset, emergency, ped_button_NS, ped_button_EW, ped_request_NS, ped_request_EW, light_NS, light_EW, ped_light_NS, ped_light_EW);
+         $monitor("At time %t, reset = %b, emergency = %b, ped_button_NS = %b, ped_button_EW = %b, ped_request_NS = %b, ped_request_EW = %b, light_NS = 
+         %b, light_EW = %b, ped_light_NS = %b, ped_light_EW = %b", $time, reset, emergency, ped_button_NS, ped_button_EW, ped_request_NS, 
+         ped_request_EW, light_NS, light_EW, ped_light_NS, ped_light_EW);
    
     end
+   // Finish simulation
+    $finish;
+
+
+end
 endmodule
 
