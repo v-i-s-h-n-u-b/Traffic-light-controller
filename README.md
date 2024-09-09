@@ -7,5 +7,4 @@ emergency vehicles and pedestrain crossing to simulate realistic traffic light b
 
 Functionally verified using testbench.
 
-Implemented and verified the working of the same on a " Digilent Basys 3 Artix-7 FPGA board " which has a 7-Segment Display, 16 User Switches and 16 User LED’S. The pins and they're respective assigned signals are as follows:
-
+Note : FPGA implementation to be updated
