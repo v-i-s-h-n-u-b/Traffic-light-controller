@@ -7,4 +7,4 @@ emergency vehicles and pedestrain crossing to simulate realistic traffic light b
 
 Functionally verified using testbench.
 
-Note : FPGA implementation to be updated
+Note : FPGA implementation to be updated (FPGA Constraints - lack of output LED's in currently available Digilent Basys 3 Artix-7 FPGA Board )
