@@ -69,14 +69,13 @@ module tb_traffic_light_controller;
         emergency = 0;
 
         #100;
-
-        initial begin
-            $monitor("Time = %0t ns: reset = %b, emergency = %b, ped_button_NS = %b, ped_button_EW = %b, ped_request_NS = %b, ped_request_EW = %b, light_NS = %b, light_EW = %b, shared_ped_light = %b, state_indicator = %b",
-                 $time, reset, emergency, ped_button_NS, ped_button_EW, ped_request_NS, ped_request_EW, light_NS, light_EW, shared_ped_light, state_indicator);
-        end
-
-        $finish;
-
     end
+
+    initial begin
+        $monitor("Time = %0t ns: reset = %b, emergency = %b, ped_button_NS = %b, ped_button_EW = %b, ped_request_NS = %b, ped_request_EW = %b, light_NS = %b, light_EW = %b, shared_ped_light = %b, state_indicator = %b",
+                 $time, reset, emergency, ped_button_NS, ped_button_EW, ped_request_NS, ped_request_EW, light_NS, light_EW, shared_ped_light, state_indicator);
+    end
+
+    $finish;
 
 endmodule
