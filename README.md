@@ -5,8 +5,6 @@ East-West traffic lights with red, yellow, and green signals, including emergenc
 Implemented different timing parameters for state transitions, including configurable durations for red, yellow, green lights, 
 emergency vehicles and pedestrain crossing to simulate realistic traffic light behavior. 
 
-Functionally verified using testbench.
-
 ### Implemented on the digilent basys 3 artix-7 fpga board (16 user input slide switches, 16 user output LED's)
 
 ![Screenshot 2024-09-12 033517](https://github.com/user-attachments/assets/8272b2b8-4552-4387-ae5e-105b79c1bd4f)
