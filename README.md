@@ -26,7 +26,7 @@ simulating realistic traffic light behavior.
 * LED 6 (Pin U15) - light_EW[0] - RED
 * LED 7 (Pin U14) - light_EW[1] - YELLOW
 * LED 8 (Pin V14) - light_EW[2] - GREEN   
-* LED 9 (Pin V13) - shared_ped_light ( Either ped_light_NS or ped_light_EW will be chosen according to whether the control signal is 1 or 0 respectively) 
+* LED 9 (Pin V13) - shared_ped_light (ped_light_NS or ped_light_EW)
 * LED 10 (Pin V3) - state_indicator[0] - RED_NS_GREEN_EW
 * LED 11 (Pin W3) - state_indicator[1] - YELLOW_NS_RED_EW
 * LED 12 (Pin U3) - state_indicator[2] - GREEN_NS_RED_EW
