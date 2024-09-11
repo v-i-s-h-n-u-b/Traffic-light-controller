@@ -1,64 +1,64 @@
 # Slide switch constraints (Inputs) 
 
 // Clock Constraints
-set_property PACKAGE_PIN V17 [get_ports clk]        // Clock signal (Pin V17)
+set_property PACKAGE_PIN V17 [get_ports clk]                       // Slide switch 1 (Pin V17)
 set_property IOSTANDARD LVCMOS33 [get_ports clk]
-// set_property PERIOD 10 [get_ports clk]           // Set clock period to 10ns, This specific FPGA Board operates at 100 MHz, so this is the default                                                          clock period.
+
 // Reset Constraints
-set_property PACKAGE_PIN V16 [get_ports reset]      // Reset signal (Pin V16)
+set_property PACKAGE_PIN V16 [get_ports reset]                     // Slide switch 2 (Pin V16)
 set_property IOSTANDARD LVCMOS33 [get_ports reset]
 
 // Emergency Constraints
-set_property PACKAGE_PIN W16 [get_ports emergency]  // Emergency signal (Pin W16)
+set_property PACKAGE_PIN W16 [get_ports emergency]                 // Slide switch 3 (Pin W16)
 set_property IOSTANDARD LVCMOS33 [get_ports emergency]
 
 // Pedestrain buttons constraints
-set_property PACKAGE_PIN W17 [get_ports ped_button_NS] // Pedestrian button NS (Pin W17)
+set_property PACKAGE_PIN W17 [get_ports ped_button_NS]             // Slide switch 4 (Pin W17)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_NS]
-set_property PACKAGE_PIN W15 [get_ports ped_button_EW] // Pedestrian button EW (Pin W15)
+set_property PACKAGE_PIN W15 [get_ports ped_button_EW]             // Slide switch 5 (Pin W15)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_EW]
 
 
 # LED Constraints (Outputs)
 
 // ped_request constraints
-set_property PACKAGE_PIN U16 [get_ports ped_request_NS]   // LED 1 (Pin U16)
+set_property PACKAGE_PIN U16 [get_ports ped_request_NS]            // LED 1 (Pin U16)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_request_NS]
-set_property PACKAGE_PIN E19 [get_ports ped_request_EW]   // LED 2 (Pin E19)
+set_property PACKAGE_PIN E19 [get_ports ped_request_EW]            // LED 2 (Pin E19)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_request_EW]
 
 // lights_NS constraints
-set_property PACKAGE_PIN U19 [get_ports light_NS[0]]   // LED 3 (Pin U19)
+set_property PACKAGE_PIN U19 [get_ports light_NS[0]]               // LED 3 (Pin U19)
 set_property IOSTANDARD LVCMOS33 [get_ports light_NS[0]]
-set_property PACKAGE_PIN V19 [get_ports light_NS[1]]   // LED 4 (Pin V19)
+set_property PACKAGE_PIN V19 [get_ports light_NS[1]]               // LED 4 (Pin V19)
 set_property IOSTANDARD LVCMOS33 [get_ports light_NS[1]]
-set_property PACKAGE_PIN W18 [get_ports light_NS[2]]   // LED 5 (Pin W18)
+set_property PACKAGE_PIN W18 [get_ports light_NS[2]]               // LED 5 (Pin W18)
 set_property IOSTANDARD LVCMOS33 [get_ports light_NS[2]]
 
 // lights_EW constraints
-set_property PACKAGE_PIN U15 [get_ports light_EW[0]]   // LED 6 (Pin U15)
+set_property PACKAGE_PIN U15 [get_ports light_EW[0]]               // LED 6 (Pin U15)
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[0]]
-set_property PACKAGE_PIN U14 [get_ports light_EW[1]]   // LED 7 (Pin U14)
+set_property PACKAGE_PIN U14 [get_ports light_EW[1]]               // LED 7 (Pin U14)
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[1]]
-set_property PACKAGE_PIN V14 [get_ports light_EW[2]]   // LED 8 (Pin V14)
+set_property PACKAGE_PIN V14 [get_ports light_EW[2]]               // LED 8 (Pin V14)
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[2]]
 
 // Shared pedestrian light output
-set_property PACKAGE_PIN V13 [get_ports {shared_ped_light}]
+set_property PACKAGE_PIN V13 [get_ports {shared_ped_light}]        // LED 9 (Pin V14)
 set_property IOSTANDARD LVCMOS33 [get_ports {shared_ped_light}]
 
 // State indicator mapping
-set_property PACKAGE_PIN V3 [get_ports {state_indicator[0]}]             // RED_NS_GREEN_EW - state_indicator[0] 
+set_property PACKAGE_PIN V3 [get_ports {state_indicator[0]}]             // LED 10 (Pin V3) RED_NS_GREEN_EW - state_indicator[0] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[0]}]     
-set_property PACKAGE_PIN W3 [get_ports {state_indicator[1]}]             // YELLOW_NS_RED_EW - state_indicator[1] 
+set_property PACKAGE_PIN W3 [get_ports {state_indicator[1]}]             // LED 11 (Pin W3) YELLOW_NS_RED_EW - state_indicator[1] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[1]}]
-set_property PACKAGE_PIN U3 [get_ports {state_indicator[2]}]             // GREEN_NS_RED_EW - state_indicator[2] 
+set_property PACKAGE_PIN U3 [get_ports {state_indicator[2]}]             // LED 12 (Pin U3) GREEN_NS_RED_EW - state_indicator[2] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[2]}]
-set_property PACKAGE_PIN P3 [get_ports {state_indicator[3]}]             // RED_NS_YELLOW_EW - state_indicator[3] 
+set_property PACKAGE_PIN P3 [get_ports {state_indicator[3]}]             // LED 13 (Pin P3) RED_NS_YELLOW_EW - state_indicator[3] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[3]}]
-set_property PACKAGE_PIN N3 [get_ports {state_indicator[4]}]             // PED_CROSS_NS - state_indicator[4] 
+set_property PACKAGE_PIN N3 [get_ports {state_indicator[4]}]             // LED 14 (Pin N3) PED_CROSS_NS - state_indicator[4] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[4]}]
-set_property PACKAGE_PIN P1 [get_ports {state_indicator[5]}]             // PED_CROSS_EW - state_indicator[5] 
+set_property PACKAGE_PIN P1 [get_ports {state_indicator[5]}]             // LED 15 (Pin P1) PED_CROSS_EW - state_indicator[5] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[5]}]
-set_property PACKAGE_PIN L1 [get_ports {state_indicator[6]}]             // EMERGENCY_MODE - state_indicator[6] 
+set_property PACKAGE_PIN L1 [get_ports {state_indicator[6]}]             // LED 16 (Pin L1) EMERGENCY_MODE - state_indicator[6] 
 set_property IOSTANDARD LVCMOS33 [get_ports {state_indicator[6]}]
