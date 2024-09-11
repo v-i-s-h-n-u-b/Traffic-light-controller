@@ -44,7 +44,7 @@ set_property PACKAGE_PIN V14 [get_ports light_EW[2]]               // LED 8 (Pin
 set_property IOSTANDARD LVCMOS33 [get_ports light_EW[2]]
 
 // Shared pedestrian light output
-set_property PACKAGE_PIN V13 [get_ports {shared_ped_light}]        // LED 9 (Pin V14)
+set_property PACKAGE_PIN V13 [get_ports {shared_ped_light}]        // LED 9 (Pin V13)
 set_property IOSTANDARD LVCMOS33 [get_ports {shared_ped_light}]
 
 // State indicator mapping
