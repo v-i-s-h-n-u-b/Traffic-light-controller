@@ -7,3 +7,4 @@ emergency vehicles and pedestrain crossing to simulate realistic traffic light b
 
 Functionally verified using testbench.
 
+Implemented on the digilent basys 3 artix-7 fpga board
