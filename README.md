@@ -14,11 +14,11 @@ Implemented on the digilent basys 3 artix-7 fpga board
 
 ### Input slide switch mappings
 
-Slide switch 1 (Pin V17) - clk
-Slide switch 2 (Pin V16) - reset
-Slide switch 3 (Pin W16) - emergency
-Slide switch 4 (Pin W17) - ped_button_NS
-Slide switch 5 (Pin W15) - ped_button_EW
+*Slide switch 1 (Pin V17) - clk
+*Slide switch 2 (Pin V16) - reset
+*Slide switch 3 (Pin W16) - emergency
+*Slide switch 4 (Pin W17) - ped_button_NS
+*Slide switch 5 (Pin W15) - ped_button_EW
 
 ### Output LED mappings
 
