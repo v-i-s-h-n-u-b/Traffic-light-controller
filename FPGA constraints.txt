@@ -1,21 +1,17 @@
 # Slide switch constraints (Inputs) 
 
-// Clock Constraints
-set_property PACKAGE_PIN V17 [get_ports clk]                       // Slide switch 1 (Pin V17)
-set_property IOSTANDARD LVCMOS33 [get_ports clk]
-
 // Reset Constraints
-set_property PACKAGE_PIN V16 [get_ports reset]                     // Slide switch 2 (Pin V16)
+set_property PACKAGE_PIN V17 [get_ports reset]                     // Slide switch 2 (Pin V17)
 set_property IOSTANDARD LVCMOS33 [get_ports reset]
 
 // Emergency Constraints
-set_property PACKAGE_PIN W16 [get_ports emergency]                 // Slide switch 3 (Pin W16)
+set_property PACKAGE_PIN V16 [get_ports emergency]                 // Slide switch 3 (Pin V16)
 set_property IOSTANDARD LVCMOS33 [get_ports emergency]
 
 // Pedestrain buttons constraints
-set_property PACKAGE_PIN W17 [get_ports ped_button_NS]             // Slide switch 4 (Pin W17)
+set_property PACKAGE_PIN W16 [get_ports ped_button_NS]             // Slide switch 4 (Pin W16)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_NS]
-set_property PACKAGE_PIN W15 [get_ports ped_button_EW]             // Slide switch 5 (Pin W15)
+set_property PACKAGE_PIN W17 [get_ports ped_button_EW]             // Slide switch 5 (Pin W17)
 set_property IOSTANDARD LVCMOS33 [get_ports ped_button_EW]
 
 
