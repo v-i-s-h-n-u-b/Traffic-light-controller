@@ -8,10 +8,10 @@ module traffic_light_controller(
     input wire ped_button_EW,    // Pedestrian button for East-West
     output reg ped_request_NS, // Pedestrian request for North-South
     output reg ped_request_EW, // Pedestrian request for East-West	 
-    output reg [2:0] light_NS, // Traffic light for North  South:[Red, Yellow, Green]
+    output reg [2:0] light_NS, // Traffic light for North-South:[Red, Yellow, Green]
     output reg [2:0] light_EW, // Traffic light for East-West: [Red, Yellow, Green]
     output reg shared_ped_light, // Shared pedestrian light for NS and EW (1 = Walk, 0 = Don't Walk)
-    output reg [6:0] state_indicator // State indicator for debugging purposes
+    output reg state_indicator [6:0] // State indicator for debugging purposes
     );
 
  // State encoding
