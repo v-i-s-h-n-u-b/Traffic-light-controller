@@ -11,7 +11,7 @@ module traffic_light_controller(
     output reg [3:0] light_NS [2:0], // Traffic light for North-South:[Red, Yellow, Green]
     output reg [3:0] light_EW [2:0], // Traffic light for East-West: [Red, Yellow, Green]
     output reg shared_ped_light, // Shared pedestrian light for NS and EW (1 = Walk, 0 = Don't Walk)
-    output reg [3:0] state_indicator [2:0] // State indicator for debugging purposes
+    output reg [3:0] state_indicator [6:0] // State indicator for debugging purposes
     );
 
  // State encoding
