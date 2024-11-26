@@ -149,7 +149,7 @@ module traffic_light_controller(
 // Shared pedestrian light based on control signal
 
     assign shared_ped_light = (control_signal) ? ped_light_NS : ped_light_EW; // Here this works as the pedestrian request handling block handles the cases where the control signal is 0 or 1 in other states
-                                                                                 as the ped_request signals will become high only when both light_NS and light_EW are zero.
+                                                                                 as the ped_request signals will become high only when both light_NS and light_EW are red.
  
 // State indicator for FPGA debugging (mapped to 7 LEDs)
     always @(*) begin
