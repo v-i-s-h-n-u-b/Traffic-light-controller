@@ -23,6 +23,15 @@ module traffic_light_controller(
     parameter PED_CROSS_EW      = 4'b0101;
     parameter EMERGENCY_MODE    = 4'b0110;
 
+  // Light_NS and Light_EW assignments
+     light_NS[0] = RED;
+     light_NS[1] = YELLOW;
+     light_NS[2] = GREEN;
+
+     light_EW[0] = RED;
+     light_EW[1] = YELLOW;
+     light_EW[2] = GREEN;
+
     // Light encoding
     parameter RED = 4'b0100;
     parameter YELLOW = 4'b0010;
